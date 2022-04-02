@@ -13,14 +13,12 @@ class Create extends Component {
       media: "",
       resultado: "",
     };
-    //--- Declare method for this component ---//
     this.baseState = this.state;
     this.hasErrorFor = this.hasErrorFor.bind(this);
     this.renderErrorFor = this.renderErrorFor.bind(this);
     this.handleInsertUser = this.handleInsertUser.bind(this);
     this.handleInputFieldChange = this.handleInputFieldChange.bind(this);
   }
-  //--- Update state variable value while input field change ---//
   handleInputFieldChange(e) {
     this.setState({
       [e.target.name]: e.target.value,
@@ -48,7 +46,7 @@ class Create extends Component {
       });
     }
   }
-  //--- Validate all input field ---//
+
   checkValidation(fields) {
     var error = {};
     if (fields.nome.length === 0) {
