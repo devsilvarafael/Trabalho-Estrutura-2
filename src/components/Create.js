@@ -19,6 +19,7 @@ class Create extends Component {
     this.handleInsertUser = this.handleInsertUser.bind(this);
     this.handleInputFieldChange = this.handleInputFieldChange.bind(this);
   }
+
   handleInputFieldChange(e) {
     this.setState({
       [e.target.name]: e.target.value,
@@ -27,6 +28,12 @@ class Create extends Component {
 
   handleInsertUser(e) {
     e.preventDefault();
+    if (this.state.media >= 6) {
+      //Informar aprovação ou reprovação
+      this.state.resultado = "Aprovado";
+    } else {
+      this.state.resultado = "Reprovado";
+    }
 
     const data = {
       id: Math.floor(Math.random() * 100),
@@ -35,6 +42,7 @@ class Create extends Component {
       idade: this.state.idade,
       genero: this.state.genero,
       media: this.state.media,
+      resultado: this.state.resultado,
     };
     if (!this.checkValidation(data)) {
       this.reset();
