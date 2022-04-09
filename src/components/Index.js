@@ -9,6 +9,9 @@ class Index extends Component {
       users: [],
       editUser: {},
     };
+    this.backup = {
+      users: [],
+    };
     this.handleUpdateState = this.handleUpdateState.bind(this);
     this.sortName = this.sortName.bind(this);
     this.sortRA = this.sortRA.bind(this);
@@ -16,6 +19,7 @@ class Index extends Component {
   }
 
   handleUpdateState(data, operation) {
+    console.log(data);
     if (operation === 1) {
       this.setState((prevState) => ({
         users: prevState.users.filter((user) => {
@@ -25,11 +29,16 @@ class Index extends Component {
       }));
       return;
     }
-    var new_users = this.state.users.concat(data);
-    console.log("Variável NEW:", new_users);
+    let new_users = this.state.users.concat(data);
+    let new_backup = this.backup.users.concat(data);
     this.setState({
       users: new_users,
     });
+    this.setState(
+      (this.backup = {
+        users: new_backup,
+      })
+    );
   }
   handleEditUser(userId) {
     this.setState({
@@ -50,48 +59,50 @@ class Index extends Component {
 
   //Sort Functions
   sortName(data) {
-    let backup = this.state.users.concat(data);
+    let backup = this.backup.users.concat(data);
+    backup.pop();
 
     this.selectionSort(backup, (elem1, elem2) => {
       return elem1.nome > elem2.nome;
     });
     console.log("Ordenação por Nome: ", backup); //Sort names
-    
+
     this.setState({
-      users: backup
-    })
+      users: backup,
+    });
   }
 
   sortRA(data) {
-    let backup = this.state.users.concat(data);
+    let backup = this.backup.users.concat(data);
+    backup.pop();
 
     this.selectionSort(backup, (elem1, elem2) => {
       return elem1.ra < elem2.ra;
     });
     console.log("Ordenação por RA: ", backup); //Sort RA
-    
+
     this.setState({
-      users: backup
-    })
+      users: backup,
+    });
   }
 
   sortApp(data) {
-    let backup = this.state.users.concat(data);
-    let AppBackup = [];
+    let backup = this.backup.users.concat(data);
+    let appBackup = [];
     backup.forEach((student) => {
       if (student.resultado === "Aprovado") {
-        AppBackup.push(student);
-        
+        appBackup.push(student);
+
         this.setState({
-          users: AppBackup
-        })
+          users: appBackup,
+        });
       }
     });
 
-    this.selectionSort(AppBackup, (elem1, elem2) => {
-      return elem1.nome < elem2.nome;
+    this.selectionSort(appBackup, (elem1, elem2) => {
+      return elem1.nome > elem2.nome;
     });
-    console.log("Ordenação Aprovados: ", AppBackup); //Sort RA
+    console.log("Ordenação Aprovados: ", appBackup); //Sort Aprovados
   }
 
   selectionSort(vetor, fnComp) {
@@ -107,24 +118,6 @@ class Index extends Component {
       }
     }
   }
-
-  // selectionSort(this.backupArray, (elem1, elem2) => {
-  //   return elem1.ra < elem2.ra;
-  // });
-  // this.raArray.push(this.backupArray);
-  // console.log(this.raArray); //calcula ra
-
-  // const backup = [];
-  // this.backupArray.forEach((student) => {
-  //   if (student.status === "Aprovado") {
-  //     backup.push(student);
-  //   }
-  // });
-  // selectionSort(backup, (elem1, elem2) => {
-  //   return elem1.ra < elem2.ra;
-  // });
-  // this.appArray.push(backup);
-  // console.log(this.appArray); //calcula aprovados
 
   render() {
     return (
