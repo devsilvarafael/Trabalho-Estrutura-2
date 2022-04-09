@@ -56,6 +56,10 @@ class Index extends Component {
       return elem1.nome > elem2.nome;
     });
     console.log("Ordenação por Nome: ", backup); //Sort names
+    
+    this.setState({
+      users: backup
+    })
   }
 
   sortRA(data) {
@@ -65,6 +69,10 @@ class Index extends Component {
       return elem1.ra < elem2.ra;
     });
     console.log("Ordenação por RA: ", backup); //Sort RA
+    
+    this.setState({
+      users: backup
+    })
   }
 
   sortApp(data) {
@@ -73,6 +81,10 @@ class Index extends Component {
     backup.forEach((student) => {
       if (student.resultado === "Aprovado") {
         AppBackup.push(student);
+        
+        this.setState({
+          users: AppBackup
+        })
       }
     });
 
